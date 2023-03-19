@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <nav>
+        <div id="left">
+            <div><img
+                    src="https://secure-media.hotstarext.com/web-assets/prod/images/brand-logos/disney-hotstar-logo-dark.svg"
+                    alt="logo"></div>
+            <ul>
+                <li>TV</li>
+                <li>Movies</li>
+                <li>Sports</li>
+                <li>Disney+</li>
+                <li>Kids</li>
+            </ul>
+        </div>
+        <div id="right">
+            <input type="text" id="search" placeholder="search">
+            <button onclick="Searchmovies()">Search</button>
+        </div>
+    </nav>
+    <div id="carousel"></div>
+    <div id="buttons">
+        <button onclick="sortLH()">Rating Low to High</button>
+        <button onclick="sortHL()">Rating High to Low</button>
+    </div>
+
+
+
+    <div id="loader_div">
+        <img id="loader-gif" src="https://i.giphy.com/media/y1ZBcOGOOtlpC/giphy.webp" alt="">
+    </div>
+    <div id="grid"></div>
+    <div id="search_res"></div>
+</body>
+
+</html>
+<script src="index.js"></script>
