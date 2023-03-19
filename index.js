@@ -1,36 +1,144 @@
-let carousel_div = document.getElementById("carousel");
-function carousel() {
-    let images = ["https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1_5x/sources/r1/cms/prod/2358/1282358-h-daf565810c3c",
-        "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1_5x/sources/r1/cms/prod/5519/675519-h",
-        "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1_5x/sources/r1/cms/prod/2352/1282352-h-23698d5e8f30",
-        "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1_5x/sources/r1/cms/prod/8772/1248772-h-8fc79ddd0960",
-        "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1_5x/sources/r1/cms/prod/8508/1358508-h-9374e51a02a7 ",]
-    let imgelement = document.createElement("img");
-    imgelement.src = images[0];
-    carousel_div.append(imgelement);
+
+let reload = document.querySelector('.brand-logo');
+reload.addEventListener('click', () => {
+    window.location = "index.html"
+})
 
 
 
-    let i = 1;
+let carousel = document.querySelector('.carousel');
+let sliders = []
+let sliderindex = 0;
 
-    setInterval(function () {
 
-        if (i === images.length) {
-            i = 0;
-        }
+let movies = [
+    {
+        name: 'WI  vs IND 317/8 (50)',
+        des: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit porro et veniam excepturi, eaque voluptatem impedit nulla laboriosam facilis ut laboriosam libero!',
+        image: 'images/slider 2.PNG'
+    },
+    {
+        name: 'Rudra: The Edge of Darkness',
+        des: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit porro et veniam excepturi, eaque voluptatem impedit nulla laboriosam facilis ut laboriosam libero!',
+        image: 'images/slider 1.PNG'
+    },
+    {
+        name: 'The Book of Boba Fett',
+        des: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit porro et veniam excepturi, eaque voluptatem impedit nulla laboriosam facilis ut laboriosam libero!',
+        image: 'images/slider 3.PNG'
+    },
+    {
+        name: 'raya and the last dragon',
+        des: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit porro et veniam excepturi, eaque voluptatem impedit nulla laboriosam facilis ut laboriosam libero!',
+        image: 'images/slider 4.PNG'
+    },
+    {
+        name: 'luca',
+        des: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit porro et veniam excepturi, eaque voluptatem impedit nulla laboriosam facilis ut laboriosam libero!',
+        image: 'images/slider 5.PNG'
+    }
+]
 
-        imgelement.src = images[i];
-        carousel_div.append(imgelement);
-        i++
 
-    }, 3000);
+const createSlide = () => {
+    if (sliderindex >= movies.length) {
+        sliderindex = 0;
 
+    }
+    carousel.innerHTML = null
+
+    let slide = document.createElement("div")
+    let imgelement = document.createElement("img")
+    let content = document.createElement("div")
+    let h1 = document.createElement("h1")
+    let p = document.createElement("p")
+
+    imgelement.appendChild(document.createTextNode(''));
+    h1.appendChild(document.createTextNode(movies[sliderindex].name));
+    p.appendChild(document.createTextNode(movies[sliderindex].des));
+    content.appendChild(h1)
+    content.appendChild(p)
+    slide.appendChild(content)
+    slide.appendChild(imgelement)
+    carousel.appendChild(slide)
+
+    imgelement.src = movies[sliderindex].image;
+    sliderindex++;
+
+    slide.className = 'slider';
+    content.className = 'slider-content';
+    h1.className = 'movie-tittle';
+    p.className = "movie-desc"
+
+    sliders.push(slide);
+
+
+    if (slide.length) {
+        sliders[0].style.marginLeft = `calc(-${100 * (sliders.length - 2)}% - ${30 * (sliders.length - 2)}px)`;
+    }
 
 
 }
-carousel();
 
-const movies = [
+for (let i = 0; i < 6; i++) {
+    createSlide()
+}
+setInterval(() => {
+    createSlide()
+}, 3000)
+
+
+const videoCards = [...document.querySelectorAll('.video-card')];
+
+videoCards.forEach(item => {
+
+
+    item.addEventListener("mouseover", () => {
+        let video = item.children[1];
+        video.play();
+    })
+    item.addEventListener('mouseleave', () => {
+        let video = item.children[1];
+        video.pause()
+    })
+
+})
+
+
+let cardcontainers = [...document.querySelectorAll('.card-container')];
+let prebtn = [...document.querySelectorAll('.pre-btn')];
+let nxtbtn = [...document.querySelectorAll('.nxt-btn')];
+
+
+
+cardcontainers.forEach((el, i) => {
+    let containersdimention = el.getBoundingClientRect();
+    let containerwidth = containersdimention.width;
+
+
+    nxtbtn[i].addEventListener("click", () => {
+        el.scrollLeft += containerwidth - 200
+    });
+    prebtn[i].addEventListener("click", () => {
+        el.scrollLeft -= containerwidth + 200
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const movies2 = [
     {
         name: 'RRR',
         rating: 8,
@@ -68,78 +176,15 @@ const movies = [
     },
 ];
 
-let grid = document.getElementById("grid");
-let data = movies;
 
-
-
-let mypromise = new Promise(function (resolve, reject) {
-    setTimeout(function () {
-        let data = movies;
-        if (data != null) {
-            resolve(data);
-        }
-        else {
-            reject("Server Laging")
-        }
-    }, 2000);
-})
-
-async function main() {
-    try {
-        let res = await mypromise
-        appendmovies(res)
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-main();
-
-function appendmovies(data) {
-    let loader = document.getElementById("loader_div");
-    loader.style.display = "none";
-
-    data.forEach(function (el) {
-        let div = document.createElement("div");
-
-        let img = document.createElement("img");
-        img.id = "poster"
-        img.src = el.img;
-
-        let p_n = document.createElement("p");
-        p_n.innerHTML = el.name;
-
-        let p_r = document.createElement("p");
-        p_r.innerHTML = el.rating
-        div.append(img, p_n, p_r);
-        grid.append(div)
-    })
-}
-
-function sortLH() {
-    grid.innerHTML = null;
-    data = data.sort(function (a, b) {
-        return a.rating - b.rating;
-    })
-    appendmovies(data);
-}
-
-function sortHL() {
-    grid.innerHTML = null;
-    data = data.sort(function (a, b) {
-        return b.rating - a.rating;
-    })
-    appendmovies(data);
-}
 
 async function Searchmovies() {
     try {
         let query = document.getElementById("search").value;
-        let res = await fetch("http://www.omdbapi.com/?s=" + query + "&apikey=f4f3e6c5")
+        let res = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=f4f3e6c5&page=3`)
         let data = await res.json()
-        let loader = document.getElementById("loader_div");
-        loader.style.display = "block"
+
+        console.log(data)
 
         setTimeout(function () {
             appendsearch(data.Search)
@@ -154,16 +199,15 @@ async function Searchmovies() {
 function appendsearch(data) {
     let res = document.getElementById("search_res")
     res.innerHTML = null;
-    let loader = document.getElementById("loader_div");
-    loader.style.display = "none";
-    carousel_div.style.display = "none";
-    grid.style.display = "none"
-    let btn = document.getElementById("buttons");
-    btn.style.display = "none"
+    let h1 = document.querySelector('.search-result');
+    h1.style.display = "block"
+    let home = document.querySelector('.home-container');
+    home.style.display = "none";
 
 
     data.forEach(function (el) {
         let div = document.createElement("div");
+
 
         let img = document.createElement("img");
         img.id = "poster"
@@ -177,4 +221,16 @@ function appendsearch(data) {
         div.append(img, p_n, p_r);
         res.append(div)
     })
+}
+let id;
+function debounce(func, delay) {
+    if (id) {
+        clearInterval(id);
+    }
+    id = setTimeout(() => {
+        func();
+
+
+    }, delay)
+
 }
